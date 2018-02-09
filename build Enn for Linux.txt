@@ -1,9 +1,0 @@
-steps to build Linux Dev Box
-1.Ensure that you have sufficient space for rwi1.
-2. follow this link step by step : https://app.assembla.com/spaces/rwi1/wiki/Development_Environment
-3. only changes required: 
-   >>cd rwi1/cai/buildroot
-   >>git checkout rackware/cai
-   >>install these packages 
-     libstoragemgmt.x86_64 0:1.3.5-1.el6
-     python-setuptools	 
