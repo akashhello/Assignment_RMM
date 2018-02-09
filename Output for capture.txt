@@ -1,0 +1,78 @@
+wget https://172.29.1.106/builds/nightly/2018-01-29T19-48:release-6.3.0.x:v6.3.0.41.Success/rackware-v6.3.0.41-x86_64.sh --no-check-certificate
+
+[RMM command]
+rw log show
+rw host show
+rw system show
+rw host discover --help
+
+rw host discover 172.16.40.141 -n Test -s Test-sys --winuser Administrator --winpass R@ckware
+rw host discover 172.29.40.153 -n Test-linux -s Test_linux-sys --linpass rackware -v --install-prereqs
+rw host delete friendly_name
+
+[captured]
+rw host capture Test-linux --clonename Test_linux-sys --allow-direct-fscopy file.txt --install-prereqs
+[root@at-rmm01 ~]# rw image show
+Friendly Name             DNS Hostname             Host State  TNG State  Image State  Image Location       System      User  Organization
+--------------  ---------------------------------  ----------  ---------  -----------  ---------------  --------------  ----  ------------
+Test-linux      at-centos69x64-01.rackwareinc.lab  DISCOVERED  NO_TNG     ASSIGNED     LOCAL            Test_linux-sys  root  Admin
+Test_linux-sys  at-centos69x64-01.rackwareinc.lab  NULL        NO_TNG     UNASSIGNED   REMOTE RACKWARE                  root  Admin
+[root@at-rmm01 ~]#  rw host show
+
+Friendly Name  Host State  TNG State      System              IP Address           Policy  Container  Tier  DR policy  DR state  User   Org   Capture Readiness
+-------------  ----------  ---------  --------------  ---------------------------  ------  ---------  ----  ---------  --------  ----  -----  -----------------
+Test-linux     DISCOVERED  NO_TNG     Test_linux-sys  172.29.40.153/24                                                           root  Admin  NOT_PRESENT
+                                                      fe80::250:56ff:feba:53cf/64
+[root@at-rmm01 ~]# rw system show
+ System Name       MAC Address          State           Host      IP Address    Power Type   Power Info  User  Organization
+--------------  -----------------  ----------------  ----------  -------------  -----------  ----------  ----  ------------
+Test-linux      00:50:56:ba:af:46  SPARE                         172.29.40.215  Unspecified              root  Admin
+Test_linux-sys  00:50:56:ba:53:cf  ASSIGNED TO HOST  Test-linux  172.29.40.153  Unspecified              root  Admin
+
+[Add]
+[root@at-rmm01 ~]# rw system add 172.29.40.215 -s Test-linux --install-prereqs
+
+[root@at-rmm01 ~]# rw image show
+Friendly Name             DNS Hostname             Host State  TNG State  Image State  Image Location       System      User  Organization
+--------------  ---------------------------------  ----------  ---------  -----------  ---------------  --------------  ----  ------------
+Test-linux      at-centos69x64-01.rackwareinc.lab  DISCOVERED  NO_TNG     ASSIGNED     LOCAL            Test_linux-sys  root  Admin
+Test_linux-sys  at-centos69x64-01.rackwareinc.lab  NULL        NO_TNG     UNASSIGNED   REMOTE RACKWARE                  root  Admin
+[root@at-rmm01 ~]#  rw host show
+
+Friendly Name  Host State  TNG State      System              IP Address           Policy  Container  Tier  DR policy  DR state  User   Org   Capture Readiness
+-------------  ----------  ---------  --------------  ---------------------------  ------  ---------  ----  ---------  --------  ----  -----  -----------------
+Test-linux     DISCOVERED  NO_TNG     Test_linux-sys  172.29.40.153/24                                                           root  Admin  NOT_PRESENT
+                                                      fe80::250:56ff:feba:53cf/64
+[root@at-rmm01 ~]# rw system show
+ System Name       MAC Address          State           Host      IP Address    Power Type   Power Info  User  Organization
+--------------  -----------------  ----------------  ----------  -------------  -----------  ----------  ----  ------------
+Test-linux      00:50:56:ba:af:46  SPARE                         172.29.40.215  Unspecified              root  Admin
+Test_linux-sys  00:50:56:ba:53:cf  ASSIGNED TO HOST  Test-linux  172.29.40.153  Unspecified              root  Admin
+
+[Assign]
+[root@at-rmm01 ~]#  rw image assign Test_linux-sys -s Test-linux -n Test-linux_Assign
+
+[root@at-rmm01 ~]# rw system show
+ System Name       MAC Address          State              Host          IP Address    Power Type   Power Info  User  Organization
+--------------  -----------------  ----------------  -----------------  -------------  -----------  ----------  ----  ------------
+Test-linux      00:50:56:ba:af:46  ASSIGNED TO HOST  Test-linux_Assign  172.29.40.215  Unspecified              root  Admin
+Test_linux-sys  00:50:56:ba:53:cf  ASSIGNED TO HOST  Test-linux         172.29.40.153  Unspecified              root  Admin
+
+[root@at-rmm01 ~]# rw host show
+
+  Friendly Name    Host State  TNG State      System              IP Address           Policy  Container  Tier  DR policy  DR state  User   Org   Capture Readiness
+-----------------  ----------  ---------  --------------  ---------------------------  ------  ---------  ----  ---------  --------  ----  -----  -----------------
+Test-linux         DISCOVERED  NO_TNG     Test_linux-sys  172.29.40.153/24                                                           root  Admin  NOT_PRESENT
+                                                          fe80::250:56ff:feba:53cf/64
+Test-linux_Assign  DISCOVERED  NO_TNG     Test-linux      172.29.40.215/24                                                           root  Admin  NOT_PRESENT
+
+[root@at-rmm01 ~]# rw image show
+  Friendly Name              DNS Hostname             Host State  TNG State  Image State  Image Location       System      User  Organization
+-----------------  ---------------------------------  ----------  ---------  -----------  ---------------  --------------  ----  ------------
+Test-linux         at-centos69x64-01.rackwareinc.lab  DISCOVERED  NO_TNG     ASSIGNED     LOCAL            Test_linux-sys  root  Admin
+Test-linux_Assign  at-centos69x64-01.rackwareinc.lab  DISCOVERED  NO_TNG     ASSIGNED     LOCAL            Test-linux      root  Admin
+Test_linux-sys     at-centos69x64-01.rackwareinc.lab  NULL        NO_TNG     UNASSIGNED   REMOTE RACKWARE                  root  Admin
+
+[Db Commads]
+[root@at-rmm01 copy_src]# rmm --dbh "select * from Host" | less
+

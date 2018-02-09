@@ -1,0 +1,7 @@
+[root@at-rmm01 ~]# rw system monitor Test-linux --interval 30 --maxentries 1000
+System monitoring configured for host 'Test-linux_Assign' for system 'Test-linux'.
+Monitoring started with Image parameters for host 'Test-linux_Assign' for system 'Test-linux'.
+
+[root@at-rmm01 ~]# rw image monitor Test-linux --interval 30 --maxentries 1000
+Image monitoring configured for host 'Test-linux' for system 'Test_linux-sys'.
+Monitoring started with Image parameters for host 'Test-linux' for system 'Test_linux-sys'.

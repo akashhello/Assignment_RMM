@@ -1,0 +1,14 @@
+[direct]
+rw image sync Test-linux --image Test-linux_Assign --sync-option direct --allow-direct-fscopy file.txt
+
+[passthrough]
+rw image sync Test-linux --image Test-linux_Assign --sync-option rmm-passthrough --allow-direct-fscopy file.txt
+
+[sync1]
+rw image sync Test-linux --image Test_linux-sys --allow-direct-fscopy file.txt
+
+[sync2]
+rw image sync Test_linux-sys --image Test-linux_Assign
+
+[host sync]
+ rw host sync 172.29.40.153 --user root --friendlyname Test-linux --target 172.29.40.215 --target-user root --target-friendlyname Test-linux_Assign

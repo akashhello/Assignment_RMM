@@ -1,0 +1,14 @@
+rw vcenter show
+
+rw vcenter show Test_Linux_Provision
+
+[add vcenter]
+rw vcenter add 
+
+[create VM]
+rw image assign Test_linux-sys --vcenter Test_Linux_Provision --clustername nested-cluster55-02 --friendlyname Test_VM --verbose --reporting --esx-network-map "eth0:e1000:VM Network:dhcp"
+
+[hosts]
+Need to add entry for ESX in /etc/hosts
+172.29.41.44 nested-esxi-03.rackwareinc.lab
+172.29.41.45 nested-esxi-04.rackwareinc.lab

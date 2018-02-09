@@ -1,0 +1,26 @@
+[root@at-rmm01 ~]# rw ic srs
+Host Entries
+   Sync From           Sync To          Stage 
+---------------  --------------------  -------
+Test-linux       Test_linux-sys        STAGE-1
+Test_linux-sys   Test-linux_Assign     STAGE-2
+Test-linux       Test-linux_Assign     DIRECT 
+Test_linux-sys   Test_Linux_Provision  STAGE-2
+Test-linux       Test_Linux_Provision  DIRECT 
+Win-2k12         Win2k12-Capture       STAGE-1
+Win2k12-Capture  Win2k12-Assign        STAGE-2
+Win-2k12         Win2k12-Assign        DIRECT 
+
+[job fires by admin|user]
+rw job query -u admin
+
+[user/role query]
+rw user show
+rw role show
+ 
+rw user add akash -o Admin
+
+useradd akash
+passwd ****
+
+To remove user form : userdel --remove tecmint

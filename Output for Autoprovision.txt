@@ -1,0 +1,4 @@
+vcenter add Test_Linux_Provision --vcenter 172.29.41.49 --vcenteruser Administrator --vcenterpass ****
+
+rw image assign Test_linux-sys --vcenter Test_Linux_Provision --clustername nested-cluster55-02 --friendlyname Test_Linux_Provision --verbose --reporting --esx-network-map "eth0:e1000:VM Network:dhcp"
+Add info of esx in host as well /etc/hosts
