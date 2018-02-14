@@ -1,0 +1,18 @@
+[prerequisite]
+1.Supported ONTAP Version : NetApp Release 9.1P1: Tue Feb 14 07:13:42 UTC 2017 
+2.User need to establish a relationship between source and destination. 
+3.For sync, user must create a protected volume to be used as the destination volume. 
+4.For sync, the destination system must use a version of Data ONTAP that is the same as or later than that of the source system. 
+5.The source volume must be online 
+6.The sync destination volume cannot be the root volume of a storage system, source volume, however, can be the root volume. 
+
+rw storageserver show
+
+rw storageserver add src --ip 172.29.40.92 --user admin --password rackware123 --vendor netapp -v
+
+rw storageserver add target --ip 172.29.40.93 --user admin --password rackware123 --vendor netapp -v
+
+rw storageserver sync src --target target --volume-map Test_src_root:Test_target_root --src-svm Test_src --dst-svm Test_target --src-cluster ONTAP_Select_N1 --dst-cluster dstcluster
+
+[Need to add sync relationship between source and target]
+rw imageconfig syncrelationshipadd src --target target --storageserver
